@@ -1,0 +1,59 @@
+<<<<<<< HEAD
+version: '3'
+services:
+  gazebo_simulator:
+    build: .
+    image: eugen06/bfmc2025:latest
+    container_name: gazebo_simulator
+    environment:
+      - DISPLAY=${DISPLAY:-host.docker.internal:0.0}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /home/eugen/catkin_ws/src:/root/catkin_ws/src
+    network_mode: host
+    privileged: true
+    stdin_open: true
+    tty: true
+    shm_size: '6gb'
+
+=======
+services:
+  ros:
+    build:
+      context: .
+      dockerfile: Dockerfile.noetic
+    image: bfmc2025
+    container_name: bfmc2025_container
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - shared-volume:/tmp
+      - ../bfmc_2025/ws_2024:/catkin_ws/src/ws_2024
+      - ../bfmc_2025/shared_code:/catkin_ws/src/shared_code
+    tty: true
+    privileged: true
+    environment:
+      - DISPLAY=$DISPLAY 
+      - ROS_DISTRO=noetic
+    #command: /bin/bash -c "source /opt/ros/noetic/setup.bash && source /catkin_ws/devel/setup.bash && bash"
+    #command: python3 "server.py"
+    command: /bin/bash
+    
+  picamera:
+    build:
+      context: .
+      dockerfile: Dockerfile.picamera
+    image: bfmc2025_picamera2
+    container_name: bfmc2025_picamera2_container
+    volumes:
+      - shared-volume:/tmp
+      - /run/udev:/run/udev:ro
+    tty: true
+    privileged: true
+    #command: python3 "client.py"
+    command: /bin/bash
+
+volumes:
+  shared-volume:
+    driver: local
+>>>>>>> 3972b02ea605ed6fd43e6ceaac6d74f8e01f7b6f
