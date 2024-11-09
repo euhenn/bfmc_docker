@@ -1,6 +1,8 @@
-
+**Reset docker if it can't download/isntall packages whe building the image or inside the container** 
 sudo systemctl restart docker
-
+**Remove the <none> iamges**
+docker rmi $(docker images -f "dangling=true" -q)
+**Enable display forwarding**
 xhost +local:docker
 
 docker-compose up --build
