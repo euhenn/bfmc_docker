@@ -6,6 +6,7 @@ RUN apt-get update && \
     python3-pip \
     python3-tk \
     x11-apps \
+    gdb \
     pcmanfm \
     featherpad \
     lxtask \
